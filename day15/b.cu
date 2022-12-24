@@ -68,13 +68,13 @@ __global__ void search_kernel(sensor_t *sensors, int32_t *out_x, int32_t *out_y,
  * @param sensors A pointer to a shared array that will hold the sensor data
  */
 void parse_sensor_data(FILE *fp, sensor_t *sensors) {
-    char *buffer = NULL;
-    size_t length;
+    char *buffer = (char * ) malloc(34 * sizeof(char));
+    size_t length = 34;
 
     // Parse the sensor data from the file
     for (int i = 0; i < NUM_SENSORS; i++) {
         // Read a line from the file
-        if (getline(&buffer, &length, fp) == -1) {
+        if (!fgets(buffer, length, fp)) {
             printf("Error reading file\n");
             return;
         }
